@@ -38,20 +38,16 @@ repository.
   ```sh
   $> source bin/conf.sh
   $> export MIR_DB_REPO_HOME=<path to miracle-db repo>
-  $> export UAS_DB=<path to leakage database to browse>
-  $> make run
-  python3 browser/wsgi.py
-  INFO:root:Database file: '/home/work/scarv/uarch-leakage/work/database.sqlite'
+  $> python3 ./browser/wsgi.py <path to leakage database to browse>
+  INFO:root:Database file: '<path to leakage database to browse>'
   Serving on http://0.0.0.0:8080
-
   ```
 
 - This will start the server running.
   Navigating to the "Running on" address in a web-browser will show
   the app landing page.
 
-- By default, the database the app connects too is the one
-  pointed at by the environment variable `$UAS_DB`.
+- The database the app connects too is specified on the command line.
 
 ## Acknowledgements
 

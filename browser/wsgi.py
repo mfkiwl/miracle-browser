@@ -1,6 +1,7 @@
 import logging as log
 import os
 import sys
+import argparse
 
 from flask import Flask
 from waitress import serve
@@ -9,13 +10,27 @@ sys.path.append(os.path.expandvars("$MIR_DB_REPO_HOME"))
 
 from config import DefaultConfig
 
+def build_arg_parser():
+    parser = argparse.ArgumentParser()
 
-def create_app(test_config=None):
+    parser.add_argument("db_path",type=str,
+        help="path to the database to open")
+    
+    parser.add_argument("--db-backend",type=str,default="sqlite",
+        help="Database backend to use")
+
+    return parser
+
+
+def create_app(args):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
 
     # Load the application configuration
-    app.config.from_object(DefaultConfig())
+    app.config.from_object(DefaultConfig(
+        args.db_path,
+        db_backend = args.db_backend
+    ))
 
     log.basicConfig(level=app.config["LOG_LEVEL"])
 
@@ -44,7 +59,11 @@ def create_app(test_config=None):
 
 
 def main():
-    app = create_app()
+
+    parser  = build_arg_parser()
+    args    = parser.parse_args()
+
+    app     = create_app(args)
     serve(app)
 
 
