@@ -15,7 +15,7 @@ class DefaultConfig(object):
         self.UAS_ROOT = os.getenv("UAS_ROOT",default="")
 
         # Where to open the database connection from.
-        self.DB_PATH  = os.path.expandvars("$UAS_ROOT/work/database.sqlite")
+        self.DB_PATH  = os.path.expandvars("$UAS_DB")
 
         # Database engine backend.
         self.DB_BACKEND = "sqlite"
