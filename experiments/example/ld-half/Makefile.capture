@@ -1,6 +1,0 @@
-
-capture-ttest:
-	$(MAKE) -f $(UAS_ROOT)/Makefile.ttest ttest-capture
-
-capture: capture-ttest
-

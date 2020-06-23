@@ -1,6 +1,0 @@
-[submodule "external/scale-hw"]
-	path = external/scale-hw
-	url = https://github.com/danpage/scale-hw.git
-[submodule "external/fw-acquisition"]
-	path = external/fw-acquisition
-	url = git@github.com:scarv/fw-acquisition.git
