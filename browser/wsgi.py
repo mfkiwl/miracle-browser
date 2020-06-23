@@ -5,7 +5,7 @@ import sys
 from flask import Flask
 from waitress import serve
 
-sys.path.append(os.path.expandvars("$UAS_ROOT/tools/database"))
+sys.path.append(os.path.expandvars("$MIR_DB_REPO_HOME"))
 
 from config import DefaultConfig
 
