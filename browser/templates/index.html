@@ -1,11 +1,193 @@
 {% extends 'master.html' %}
 
 {% block header %}
-  <h1>{% block title %}Home{% endblock %}</h1>
+  <h1>{% block title %}About Miracle:{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
-Homepage for the study.
+<div style="max-width:900px">
+<p>
+The
+<a href="https://github.com/scarv" target="_blank">SCARV</a>
+Miracle study aims to provide a rigorous and systematic evaluation of
+micro-architectural power side-channel leakage effects found in common
+embedded CPUs and micro-controllers.
+</p>
+<p>
+<ul>
+<li>
+The <a href="/targets">Target</a> page lists the set of target devices
+we have analysed so far as part of the study.
+</li>
+<li>
+The <a href="/experiments">Experiments</a> page lists each experiment, and
+the targets for which we have results.
+</li>
+<li>
+All of the infrastructure and experiment code used in the study is available on
+<a href="https://github.com/scarv/miracle-experiments" target="_blank">GitHub</a>.
+</li>
+</ul>
+</p>
+
+<h2>What we hope to contribute:</h2>
+<p>
+Cryptographic engineering is <i>hard</i>.
+Side-channel resistant software is <i>extremely hard</i>.
+We want to make it easier.
+<ul>
+<li>
+There is a lot of literature on algorithms which, if implemented
+correctly, we are reasonably confident will behave robustly under leakage
+analysis.
+</li>
+<li>
+We have a weak notion of "correctness" with respect to leakage
+resilience.
+</li>
+<li>
+Attacks and detection techniques are improving all the time. Their
+results or the exactness/strength of their claims can be easily
+misunderstood.
+</li>
+<li>
+Theoretically provably secure algorithms, once implemented, does not
+always stay secure.
+</li>
+<li>
+It is rarely obvious exactly where leakage is coming from or why. There
+are many device specific pitfalls which one can encounter when writing
+leakage resistant code.
+</li>
+<li>
+There is lots of literature on abstract masking algorithms, and on
+implementation effects which give rise to leakage. However, these two
+bodies of literature rarely seem to interact.
+</li>
+<li>
+There is a need for practical guidance and information for engineers:
+How to approach writing leakage resistant code for a given device?
+How to design a new device with leakage resilience in mind?
+</li>
+<li>
+Different devices are often hard or impossible to compare based on their
+leakage characteristics.
+E.g: the ARM M0 core is one of the most studied devices in the world from
+a leakage perspective. But finding comparable data-sets or lists of
+characteristics / implementation "gottcha's" is almost impossible.
+</li>
+<li>
+Recent work tries to create provably secure masked implementaitons by
+modelling the micro-architectural behaviour of target devices.
+Without access to the underlying engineering designs, these models
+must be built systematically and emprically using experiment sets
+like ours.
+</li>
+</ul>
+
+<p>
+Arguably, a bigger contribution is being able to organise each of these new
+effects, and devise experiments to test for them quantitatively. Having clear
+examples of new/interesting/existing effects then act as a useful
+contribution in their own right, as well as acting as a proof of concept /
+usefulness for the tooling and methodology.
+</p>
+
+<p>
+It's reasonable to assert that there are potentially hundreds/thousands of
+different combinations of device, micro-architectural leakage source and
+methods of exploitation. The value of finding any given one of these is hence
+small, given the total problem space (this sort of follows from existing
+literature, where many papers appear each detailing a small effect). The real
+value then comes from making it easy to explore the problem space, and
+organise the results of that exploration.
+</p>
+
+<h3>Qualitative contributions:</h3>
+<p>
+<ul>
+<li>
+Raise awareness of implementation difficulties across the literature, and
+bridge the gap between more "theoretical" leakage papers v.s. empirical
+studies of leakage effects.
+</li><li>
+Understand how the same *code* can leak differently across different
+devices.
+</li><li>
+Understand how the same *action* (syntactically different but semantically
+identical code) can leak differently across different devices.
+</li><li>
+Understand what the most important questions are about a device from the
+perspective of it's behavior under leakage analysis.
+</li><li>
+Enable a 3rd party to contribute information on a device, or pose a new /
+relevant experiment.
+</li>
+</ul>
+</p>
+
+<h3>Tooling:</h3>
+<p>
+<ul>
+<li>
+Create a set of micro-benchmarks which probe *specific* pieces of
+functionality about a range of devices.
+</li><li>
+Ideally, each benchmark yields either a yes/no answer to a question of
+the form "Does device X exhibit leakage when executing this particular
+code-idiom"
+</li><li>
+Care should be taken to avoid questions which tempt comparisons of the
+"Device X leaks *more/less* than device Y". The current methods of
+leakage in the literature do not support such comparisons.
+</li>
+</ul>
+</p>
+
+<h3>Methodology:</h3>
+<p>
+<ul><li>
+A tool flow that is totally separable from the devices and experiments.
+</li><li>
+Create a standardised flow for running said benchmarks on different devices
+and collating their results *in an actionable way*.
+</li><li>
+It should be *trivial* for individuals / organisations to add both new
+devices and new benchmarks.
+</li><li>
+Present results such that the community can add to them over time.
+</ul>
+</p>
+
+<h3>Systematization of Knowledge:</h3>
+<p>
+
+<ul><li>
+Given a set of benchmarks and a standardised flow for executing them,
+create a database of as many different devices and their analysis results
+as possible.
+</li><li>
+Engineers/Researchers can then query the database:
+</li><li>
+For a given benchmark, how do all devices behave under it?
+</li><li>
+For a given device, what key leakage phenomena should I be aware of when
+writing leakage resilient code for it?
+</li><li>
+Does this device behave in ways that transparently undermine my proof of
+security?
+</li><li>
+Give some unexpected leakage in my implementation, which known effects in
+this device might be the cause?
+</li><li>
+How can / is this source of leakage be exploited? Do I as an engineer
+need to worry about it?
+</li><li>
+Which parts of the academic literature are relevant to this device or
+effect?
+</li></ul>
+</p>
+<div>
 {% endblock %}
 
 
