@@ -45,13 +45,18 @@ def makePlotFigure(
     """
     Given a list of satistic traces, create a plot of them.
     """
-    fig = Figure(figsize=(10,5))
+    fig = Figure(tight_layout=True, figsize=(10,6))
 
-    for s in straces:
+    ax  = fig.add_subplot(1,1,1)
 
-        ax  = fig.add_subplot(1,1,1)
+    for i in range(0, len(straces)):
+        s    = straces[i]
         
-        ax.plot(s, linewidth=0.15)
+        l    = ""
+        if(slabels!=[]):
+            l = (slabels[i])
+        
+        ax.plot(s, linewidth=0.15, label = l)
 
         if(xlabel and xlabel != ""):
             ax.set_xlabel(xlabel)
@@ -65,7 +70,14 @@ def makePlotFigure(
     if(title and title!=""):
         fig.suptitle(title,y=1.0)
 
-    fig.tight_layout()
+    handles, labels = ax.get_legend_handles_labels()
+    lg = ax.legend(
+        handles,
+        labels,
+        loc="lower left",
+        bbox_to_anchor=(0.0, 1.01),
+        ncol=1
+    )
 
     return fig
 
@@ -280,7 +292,7 @@ def render_selection(tids):
     for tid in sel:
         stat_trace = db.getStatisticTraceById(tid)
         traces.append(stat_trace.getValuesAsNdArray())
-        labels.append("")
+        labels.append(stat_trace.name)
     
     figure  = makePlotFigure(
         traces,
