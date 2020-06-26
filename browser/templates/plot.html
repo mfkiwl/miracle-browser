@@ -7,12 +7,14 @@
 
 {% block content %}
 
+{% if experiment and target %}
 <p>
 <ul>
 <li>Experiment: {{common.link_experiment(experiment)}}</li>
 <li>Target: {{common.link_target(target)}}</li>
 </ul>
 </p>
+{% endif %}
 
 <p>
 {% if ttest %}
@@ -33,6 +35,11 @@
 
 {% if corr %}
 <img style="border: 1px solid black; padding-top: 5px;" src="{{common.plot_stat_trace(stid,eid=experiment.id,tgtid=target.id,corid=corr.id)}}"/>
+{% endif %}
+
+{% if plotType == "selection" %}
+<img style="border: 1px solid black; padding-top: 5px;"
+src="{{url_for("plot.render_selection",tids=selstr)}}"/>
 {% endif %}
 
 {% if disasm %}

@@ -245,3 +245,48 @@ def render_statistic_trace(tid):
     
     return rsp
 
+
+@bp.route("/plot-selection", methods=["POST"])
+def plot_selection():
+    """
+    Plot a set of traces over one-another.
+    """
+
+    sel = request.form.getlist("selection")
+
+    template = render_template (
+        "plot.html"             ,
+        plotType    = "selection",
+        selection   = sel,
+        selstr      = ",".join(sel)
+    )
+
+    return template
+
+
+@bp.route("/render-selection/<string:tids>", methods=["GET"])
+def render_selection(tids):
+    """
+    Plot a set of traces over one-another.
+    """
+
+    sel = [int(i) for i in tids.split(",")]
+
+    db      = db_connect()
+
+    traces  = []
+    labels  = []
+
+    for tid in sel:
+        stat_trace = db.getStatisticTraceById(tid)
+        traces.append(stat_trace.getValuesAsNdArray())
+        labels.append("")
+    
+    figure  = makePlotFigure(
+        traces,
+        slabels = labels,
+        xlabel="Sample"
+    )
+
+    rsp     = makePlotResponse(figure)
+    return rsp

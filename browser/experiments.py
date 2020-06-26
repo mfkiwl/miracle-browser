@@ -66,11 +66,11 @@ def show_results(eid,tid):
 
     ttests     = db.getTTraceSetsByTargetAndExperiment(
         target.id, experiment.id
-    )
+    ).all()
 
     corrs      = db.getCorrolationTraceByTargetAndExperiment (
         target.id, experiment.id
-    )
+    ).all()
 
     pbin       = db.getProgramBinaryByTargetAndExperiment(
         target.id, experiment.id

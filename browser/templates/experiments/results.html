@@ -23,13 +23,31 @@
 </ul>
 {% endif %}
 
+{% if (ttests | length) > 0 %}
+
 <h2>TTest Result Sets</h2>
 
 {{ common.ttests_list_table(ttests) }}
 
+{% endif %}
+
+{% if (corrs | length) > 0 %}
+
 <h2>Corrolation Analysis Results</h2>
 
+<form action="{{url_for("plot.plot_selection")}}" method="POST">
+<input type="submit" value="Plot All"/>
+<select multiple="multiple" name="selection" id="selection"
+    style="display:none;">
+{% for c in corrs -%}
+<option value="{{c.id}}" selected>{{c.id}}</option>
+{%- endfor %}
+</select>
+</form>
+
 {{ common.corrolation_analysis_list_table(corrs) }}
+
+{% endif %}
 
 {% endblock %}
 
