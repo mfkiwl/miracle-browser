@@ -92,6 +92,7 @@
 {% macro corrolation_analysis_list_table(corrs) -%}
 <table class="list_table">
 <tr>
+<td></td>
 <td>ID</td>
 <td>Name</td>
 <td>Type</td>
@@ -101,6 +102,7 @@
 </tr>
 {% for corr in corrs %}
 <tr>
+<td><input type="checkbox" name="selection" value="{{corr.id}}"/></td>
 <td>{{corr.id}}</td>
 <td>{{corr.name}}</td>
 <td>{{corr.corrType.name}}</td>
