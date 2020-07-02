@@ -40,6 +40,7 @@
 {% if plotType == "selection" %}
 <img style="border: 1px solid black; padding-top: 5px;"
 src="{{url_for("plot.render_selection",tids=selstr)}}"/>
+<br/>
 {% endif %}
 
 {% if disasm %}

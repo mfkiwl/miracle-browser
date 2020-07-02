@@ -293,7 +293,7 @@ def render_selection(tids):
         stat_trace = db.getStatisticTraceById(tid)
         traces.append(stat_trace.getValuesAsNdArray())
         labels.append(stat_trace.name)
-    
+
     figure  = makePlotFigure(
         traces,
         slabels = labels,

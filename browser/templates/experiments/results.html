@@ -35,14 +35,12 @@
 
 <h2>Corrolation Analysis Results</h2>
 
-<form style="display:inline"; action="{{url_for("plot.plot_selection")}}" method="POST">
+<form style="display:inline;" action="{{url_for("plot.plot_selection")}}" method="POST">
 <input type="submit" value="Plot All"/>
-<select multiple="multiple" name="selection" id="selection"
-    style="display:none;">
 {% for c in corrs -%}
-<option value="{{c.id}}" selected>{{c.id}}</option>
+<input style="display:none;" type="checkbox" name="selection" value="{{c.statisticTraceid}}"
+checked/>
 {%- endfor %}
-</select>
 </form>
 
 <form style="display:inline"; action="{{url_for("plot.plot_selection")}}" method="POST">
