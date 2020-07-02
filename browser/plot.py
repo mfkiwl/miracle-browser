@@ -301,4 +301,8 @@ def render_selection(tids):
     )
 
     rsp     = makePlotResponse(figure)
+
+    db_close()
+
     return rsp
+
