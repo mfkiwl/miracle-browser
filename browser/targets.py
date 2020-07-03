@@ -19,10 +19,13 @@ def list_targets():
     """
     db = db_connect()
     
-    targets  = db.getAllTargets()
-    devices  = db.getAllDevices()
-    cores    = db.getAllCores()
-    boards   = db.getAllBoards()
+    targets  = db.getAllTargets().all()
+    devices  = db.getAllDevices().all()
+    cores    = db.getAllCores().all()
+    boards   = db.getAllBoards().all()
+
+    targets.sort(key = lambda x : x.core.name)
+    cores.sort(key = lambda x : x.name)
 
     template = render_template(
         "targets/list.html",
