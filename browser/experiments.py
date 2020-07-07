@@ -40,7 +40,9 @@ def show_experiment(id):
     db = db_connect()
     
     experiment  = db.getExperimentById(id)
-    targets     = db.getTargetsByExperiment(experiment.id)
+    targets     = db.getTargetsByExperiment(experiment.id).all()
+    
+    targets.sort(key = lambda x : x.core.name)
 
     template = render_template(
         "experiments/show.html" ,
