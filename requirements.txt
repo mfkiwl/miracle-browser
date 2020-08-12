@@ -6,3 +6,4 @@ scipy
 tqdm
 waitress
 lz4
+jsonschema

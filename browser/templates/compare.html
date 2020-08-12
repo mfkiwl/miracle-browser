@@ -1,0 +1,118 @@
+{% extends 'master.html' %}
+
+{% block header %}
+  <div style="text-align: center;">
+    <h1>{% block title %}Results Comparison{% endblock %}</h1>
+  </div>
+{% endblock %}
+{% block css %}
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
+{% endblock %}
+
+{% block content %}
+  <div style="text-align: center;">
+    <p style="margin-top: 1.5em;">
+      Please choose two targets and an experiment to plot available results:
+    </p>
+    <div class="row" style="text-align: center;">
+      <div class="col-5 form-group">
+        <label for="target1"><strong>Target 1</strong></label>
+        <select class="form-control target" id="target1">
+          {% for target in targets %}
+            <option value="{{ target.id }}">{{ target.name }} - {{ target.description }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-2 my-auto">
+        vs
+      </div>
+      <div class="col-5 form-group">
+        <label for="target2"><strong>Target 2</strong></label>
+        <select class="form-control target" id="target2">
+          {% for target in targets %}
+            <option value="{{ target.id }}">{{ target.name }} - {{ target.description }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <div class="row" style="text-align: center;">
+      <div class="col-5 form-group mx-auto">
+        <label for="experiment"><strong>Experiment</strong></label>
+        <select class="form-control" id="experiment">
+          {% for experiment in experiments %}
+            <option value="{{ experiment.id }}">{{ experiment.name }} ({{ experiment.catagory }})</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <h4 style="margin-top: 1em;">Corrolation Analysis Results</h4>
+
+    <div class="row">
+      <div class="col-6">
+        <h5>Target 1</h5>
+        <table id="correlation1" class="table">
+          <thead>
+          <tr>
+            <th></th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Type</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for correlation in correlations %}
+            <tr>
+              <td><input type="checkbox" name="selection" value="{{ correlation.statisticTraceid }}"/></td>
+              <td>{{ correlation.id }}</td>
+              <td>{{ correlation.name }}</td>
+              <td>{{ correlation.corrType.name }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="col-6">
+        <h5>Target 2</h5>
+        <table id="correlation2" class="table">
+          <thead>
+          <tr>
+            <th></th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Type</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for correlation in correlations %}
+            <tr>
+              <td><input type="checkbox" name="selection" value="{{ correlation.statisticTraceid }}"/></td>
+              <td>{{ correlation.id }}</td>
+              <td>{{ correlation.name }}</td>
+              <td>{{ correlation.corrType.name }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div style="text-align: center;">
+      <button id="plot_button" class="btn btn-primary" style="width: 40%;">Plot Selected Results</button>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+          integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+          crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+          integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+          crossorigin="anonymous"></script>
+  <script src="/static/scripts/compare.js"></script>
+{% endblock %}

@@ -25,7 +25,7 @@
         <div class="item"><a href="/">About</a></div>
         <div class="item"><a href="{{url_for("targets.list_targets")}}">Targets</a></div>
         <div class="item"><a href="/experiments">Experiments</a></div>
-        <!--<div class="item"><a href="/plot/compare-trace">Compare</a></div>-->
+        <div class="item"><a href="{{ url_for('compare.home') }}">Compare</a></div>
         <!--<div class="item"><a href="/reports">Reports</a></div>-->
     </td>
 </tr>
@@ -40,12 +40,13 @@
 </div>
 <footer>
 <div class="footer">
-    This work has been supported in part by EPSRC via grant 
+    This work has been supported in part by EPSRC via grant
     <a target="_blank" href="https://gow.epsrc.ukri.org/NGBOViewGrant.aspx?GrantRef=EP/R012288/1">EP/R012288/1</a>,
     under the
     <a target="_blank" href="http://www.ukrise.org">RISE</a>
     programme.
-</div
+</div>
 </footer>
+{% block scripts %}{% endblock %}
 </body>
 </html>
