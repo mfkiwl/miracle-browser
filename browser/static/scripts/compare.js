@@ -12,6 +12,17 @@ $(document).ready(function () {
             update_results(target1, target2, experiment);
         });
 
+        $('#plot_button').click(function () {
+            corr_ids = new Set();
+            $("#correlation1 :checked").each(function (_, checkbox) {
+                corr_ids.add(parseInt($(checkbox).val()));
+            });
+            $("#correlation2 :checked").each(function (_, checkbox) {
+                corr_ids.add(parseInt($(checkbox).val()));
+            });
+            update_plot(Array.from(corr_ids));
+        });
+
         function _write_experiments(experiments) {
             let experiment_list = $("#experiment");
             experiment_list.html('')
@@ -61,6 +72,11 @@ $(document).ready(function () {
             }
         }
 
+        function _write_plot(png) {
+            $("#plot-text").attr('hidden', false);
+            $("#plot").attr('src', png);
+        }
+
         function update_experiments(target1, target2) {
             let json = {
                 "target1": target1,
@@ -95,6 +111,23 @@ $(document).ready(function () {
                     }
                 });
             }
+        }
+
+        function update_plot(trace_ids) {
+            let json = {
+                "type": "correlation",
+                "trace_ids": trace_ids
+            };
+            $.ajax("/api/compare/plot", {
+                type: "POST",
+                data: JSON.stringify(json),
+                contentType: "application/json",
+                dataType: "json",
+                success: function (data) {
+                    let png_src = 'data:image/png;base64,' + data.plot;
+                    _write_plot(png_src);
+                }
+            });
         }
     }
 );

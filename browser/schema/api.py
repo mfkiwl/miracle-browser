@@ -33,3 +33,24 @@ def compare_results(data):
         validate(data, schema)
     except ValidationError:
         abort(400)
+
+
+def compare_plots(data):
+    schema = {
+        "type": "object",
+        "properties": {
+            "type": {"type": "string"},
+            "trace_ids": {
+                "type": "array",
+                "items": {
+                    "type": "number"
+                }
+            }
+        },
+        "additionalProperties": False,
+        "required": ["type", "trace_ids"]
+    }
+    try:
+        validate(data, schema)
+    except ValidationError:
+        abort(400)

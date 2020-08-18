@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify, g
 
+import processing.plotting as plotting
 import schema.api as validation
 from db import db_connect, db_close
 
@@ -44,6 +45,32 @@ def compare_results():
         'correlations_2': [g.db.row_to_dict(t) for t in corrs2],
     }
     return jsonify(json)
+
+
+@bp.route('/compare/plot', methods=['POST'])
+def compare_plots():
+    data = request.get_json()
+    validation.compare_plots(data)
+
+    traces = []
+    labels = []
+
+    for trace_id in data['trace_ids']:
+        stat_trace = g.db.getStatisticTraceById(trace_id)
+        traces.append(stat_trace.getValuesAsNdArray())
+        labels.append(stat_trace.name)
+
+    figure = plotting.makePlotFigure(
+        traces,
+        slabels=labels,
+        xlabel="Sample"
+    )
+
+    base64_png = plotting.b64_plot_png(figure)
+
+    return jsonify({
+        'plot': base64_png
+    })
 
 
 @bp.teardown_request
