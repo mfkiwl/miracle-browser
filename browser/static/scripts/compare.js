@@ -73,8 +73,8 @@ $(document).ready(function () {
         }
 
         function _write_plot(png) {
-            $("#plot-text").attr('hidden', false);
             $("#plot").attr('src', png);
+            $("#plotResultsModal").modal('show');
         }
 
         function update_experiments(target1, target2) {
