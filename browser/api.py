@@ -39,8 +39,8 @@ def compare_results():
         data['target2'], data['experiment']
     ).all()
     json = {
-        't_tests_1': [g.db.row_to_dict(t) for t in ttests1],
-        't_tests_2': [g.db.row_to_dict(t) for t in ttests2],
+        'ttests_1': [g.db.row_to_dict(t) for t in ttests1],
+        'ttests_2': [g.db.row_to_dict(t) for t in ttests2],
         'correlations_1': [g.db.row_to_dict(t) for t in corrs1],
         'correlations_2': [g.db.row_to_dict(t) for t in corrs2],
     }

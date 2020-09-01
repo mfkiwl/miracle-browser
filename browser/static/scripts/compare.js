@@ -13,14 +13,20 @@ $(document).ready(function () {
         });
 
         $('#plot_button').click(function () {
-            corr_ids = new Set();
+            var trace_ids = new Set();
             $("#correlation1 :checked").each(function (_, checkbox) {
-                corr_ids.add(parseInt($(checkbox).val()));
+                trace_ids.add(parseInt($(checkbox).val()));
             });
             $("#correlation2 :checked").each(function (_, checkbox) {
-                corr_ids.add(parseInt($(checkbox).val()));
+                trace_ids.add(parseInt($(checkbox).val()));
             });
-            update_plot(Array.from(corr_ids));
+            $("#ttest1 :checked").each(function (_, checkbox) {
+                trace_ids.add(parseInt($(checkbox).val()));
+            });
+            $("#ttest2 :checked").each(function (_, checkbox) {
+                trace_ids.add(parseInt($(checkbox).val()));
+            });
+            update_plot(Array.from(trace_ids));
         });
 
         function _write_experiments(experiments) {
@@ -45,27 +51,46 @@ $(document).ready(function () {
         function _write_results(results) {
             $("#correlation1 tbody").empty();
             $("#correlation2 tbody").empty();
-            if ((results.correlations_1.length > 0) && (results.correlations_2.length > 0)) {
-                results.correlations_1.forEach(element =>
-                    $('#correlation1').append(
-                        "<tr>" +
-                        "<td><input type=\"checkbox\" name=\"selection\" value=\"" + element.statisticTraceid + "\"></td>" +
-                        "<td>" + element.id + "</td>" +
-                        "<td>" + element.name + "</td>" +
-                        "<td>" + element.corrType.split(".")[1] + "</td>" +
-                        "</tr>"
-                    )
-                );
-                results.correlations_2.forEach(element =>
-                    $('#correlation2').append(
-                        "<tr>" +
-                        "<td><input type=\"checkbox\" name=\"selection\" value=\"" + element.statisticTraceid + "\"></td>" +
-                        "<td>" + element.id + "</td>" +
-                        "<td>" + element.name + "</td>" +
-                        "<td>" + element.corrType.split(".")[1] + "</td>" +
-                        "</tr>"
-                    )
-                );
+            results.correlations_1.forEach(element =>
+                $('#correlation1').append(
+                    "<tr>" +
+                    "<td><input type=\"checkbox\" name=\"selection\" value=\"" + element.statisticTraceid + "\"></td>" +
+                    "<td>" + element.id + "</td>" +
+                    "<td>" + element.name + "</td>" +
+                    "<td>" + element.corrType.split(".")[1] + "</td>" +
+                    "</tr>"
+                )
+            );
+            results.correlations_2.forEach(element =>
+                $('#correlation2').append(
+                    "<tr>" +
+                    "<td><input type=\"checkbox\" name=\"selection\" value=\"" + element.statisticTraceid + "\"></td>" +
+                    "<td>" + element.id + "</td>" +
+                    "<td>" + element.name + "</td>" +
+                    "<td>" + element.corrType.split(".")[1] + "</td>" +
+                    "</tr>"
+                )
+            );
+            results.ttests_1.forEach(element =>
+                $('#ttest1').append(
+                    "<tr>" +
+                    "<td><input type=\"checkbox\" name=\"selection\" value=\"" + element.ttraceId + "\"></td>" +
+                    "<td>" + element.id + "</td>" +
+                    "<td>" + element.targetFreq + "</td>" +
+                    "</tr>"
+                )
+            );
+            results.ttests_2.forEach(element =>
+                $('#ttest2').append(
+                    "<tr>" +
+                    "<td><input type=\"checkbox\" name=\"selection\" value=\"" + element.ttraceId + "\"></td>" +
+                    "<td>" + element.id + "</td>" +
+                    "<td>" + element.targetFreq + "</td>" +
+                    "</tr>"
+                )
+            );
+            if ((results.correlations_1.length > 0) && (results.correlations_2.length > 0) &&
+                (results.ttests_1.length > 0) && (results.ttests_2.length > 0)) {
                 $("#plot_button").attr('disabled', false);
             } else {
                 $("#plot_button").attr('disabled', true);
@@ -115,7 +140,6 @@ $(document).ready(function () {
 
         function update_plot(trace_ids) {
             let json = {
-                "type": "correlation",
                 "trace_ids": trace_ids
             };
             $.ajax("/api/compare/plot", {
