@@ -21,7 +21,11 @@
         <label for="target1"><strong>Target 1</strong></label>
         <select class="form-control target" id="target1">
           {% for target in targets %}
-            <option value="{{ target.id }}">{{ target.name }} - {{ target.description }}</option>
+            {% if target.id | int == t1 %}
+              <option value="{{ target.id }}" selected>{{ target.name }} - {{ target.description }}</option>
+            {% else %}
+              <option value="{{ target.id }}">{{ target.name }} - {{ target.description }}</option>
+            {% endif %}
           {% endfor %}
         </select>
       </div>
@@ -32,7 +36,11 @@
         <label for="target2"><strong>Target 2</strong></label>
         <select class="form-control target" id="target2">
           {% for target in targets %}
-            <option value="{{ target.id }}">{{ target.name }} - {{ target.description }}</option>
+            {% if target.id | int == t2 %}
+              <option value="{{ target.id }}" selected>{{ target.name }} - {{ target.description }}</option>
+            {% else %}
+              <option value="{{ target.id }}">{{ target.name }} - {{ target.description }}</option>
+            {% endif %}
           {% endfor %}
         </select>
       </div>
@@ -43,7 +51,11 @@
         <label for="experiment"><strong>Experiment</strong></label>
         <select class="form-control" id="experiment">
           {% for experiment in experiments %}
-            <option value="{{ experiment.id }}">{{ experiment.name }} ({{ experiment.catagory }})</option>
+            {% if experiment.id | int == e %}
+              <option value="{{ experiment.id }}" selected>{{ experiment.name }} ({{ experiment.catagory }})</option>
+            {% else %}
+              <option value="{{ experiment.id }}">{{ experiment.name }} ({{ experiment.catagory }})</option>
+            {% endif %}
           {% endfor %}
         </select>
       </div>
@@ -64,9 +76,13 @@
           </tr>
           </thead>
           <tbody>
-          {% for correlation in correlations %}
+          {% for correlation in correlations1 %}
             <tr>
-              <td><input type="checkbox" name="selection" value="{{ correlation.statisticTraceid }}"/></td>
+              {% if correlation.statisticTraceid | int in c %}
+                <td><input type="checkbox" name="selection" value="{{ correlation.statisticTraceid }}" checked/></td>
+              {% else %}
+                <td><input type="checkbox" name="selection" value="{{ correlation.statisticTraceid }}"/></td>
+              {% endif %}
               <td>{{ correlation.id }}</td>
               <td>{{ correlation.name }}</td>
               <td>{{ correlation.corrType.name }}</td>
@@ -88,9 +104,13 @@
           </tr>
           </thead>
           <tbody>
-          {% for correlation in correlations %}
+          {% for correlation in correlations2 %}
             <tr>
-              <td><input type="checkbox" name="selection" value="{{ correlation.statisticTraceid }}"/></td>
+              {% if correlation.statisticTraceid | int in c %}
+                <td><input type="checkbox" name="selection" value="{{ correlation.statisticTraceid }}" checked/></td>
+              {% else %}
+                <td><input type="checkbox" name="selection" value="{{ correlation.statisticTraceid }}"/></td>
+              {% endif %}
               <td>{{ correlation.id }}</td>
               <td>{{ correlation.name }}</td>
               <td>{{ correlation.corrType.name }}</td>
@@ -115,9 +135,13 @@
           </tr>
           </thead>
           <tbody>
-          {% for ttest in ttests %}
+          {% for ttest in ttests1 %}
             <tr>
-              <td><input type="checkbox" name="selection" value="{{ ttest.ttraceId }}"/></td>
+              {% if ttest.ttraceId | int in t %}
+                <td><input type="checkbox" name="selection" value="{{ ttest.ttraceId }}" checked/></td>
+              {% else %}
+                <td><input type="checkbox" name="selection" value="{{ ttest.ttraceId }}"/></td>
+              {% endif %}
               <td>{{ ttest.id }}</td>
               <td>{{ ttest.targetFreq }}</td>
             </tr>
@@ -137,9 +161,13 @@
           </tr>
           </thead>
           <tbody>
-          {% for ttest in ttests %}
+          {% for ttest in ttests2 %}
             <tr>
-              <td><input type="checkbox" name="selection" value="{{ ttest.ttraceId }}"/></td>
+              {% if ttest.ttraceId | int in t %}
+                <td><input type="checkbox" name="selection" value="{{ ttest.ttraceId }}" checked/></td>
+              {% else %}
+                <td><input type="checkbox" name="selection" value="{{ ttest.ttraceId }}"/></td>
+              {% endif %}
               <td>{{ ttest.id }}</td>
               <td>{{ ttest.targetFreq }}</td>
             </tr>
@@ -165,10 +193,14 @@
           <div class="modal-body" style="text-align: left;">
             <img id="plot" style="width: 100%; height: auto;">
             You can share this plot with others by clicking the share button below!
+            <div id="shared_div" hidden>
+              <p style="margin-top: 1em; margin-bottom: 0;">Share this unique link to view these results anywhere:</p>
+              <code id="shared_link"></code>
+            </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button id="group-confirm-delete" type="button" class="btn btn-success">Share</button>
+            <button id="share_button" type="button" class="btn btn-success">Share</button>
           </div>
         </div>
       </div>

@@ -13,6 +13,7 @@ $(document).ready(function () {
         });
 
         $('#plot_button').click(function () {
+            $('#shared_div').attr('hidden', true);
             var trace_ids = new Set();
             $("#correlation1 :checked").each(function (_, checkbox) {
                 trace_ids.add(parseInt($(checkbox).val()));
@@ -27,6 +28,33 @@ $(document).ready(function () {
                 trace_ids.add(parseInt($(checkbox).val()));
             });
             update_plot(Array.from(trace_ids));
+        });
+
+        $('#share_button').click(function () {
+            var base_url = window.location.href.split('?')[0];
+            let target1 = $("#target1").val();
+            let target2 = $("#target2").val();
+            let experiment = $("#experiment").val();
+            var correlations = new Set();
+            $("#correlation1 :checked").each(function (_, checkbox) {
+                correlations.add(parseInt($(checkbox).val()));
+            });
+            $("#correlation2 :checked").each(function (_, checkbox) {
+                correlations.add(parseInt($(checkbox).val()));
+            });
+            var ttests = new Set();
+            $("#ttest1 :checked").each(function (_, checkbox) {
+                ttests.add(parseInt($(checkbox).val()));
+            });
+            $("#ttest2 :checked").each(function (_, checkbox) {
+                ttests.add(parseInt($(checkbox).val()));
+            });
+            base_url += '?t1=' + target1 + '&t2=' + target2 +
+                '&e=' + experiment +
+                '&c=' + Array.from(correlations).toString() +
+                '&t=' + Array.from(ttests).toString()
+            $('#shared_link').html(base_url);
+            $('#shared_div').attr('hidden', false);
         });
 
         function _write_experiments(experiments) {
@@ -89,7 +117,7 @@ $(document).ready(function () {
                     "</tr>"
                 )
             );
-            if ((results.correlations_1.length > 0) && (results.correlations_2.length > 0) &&
+            if ((results.correlations_1.length > 0) && (results.correlations_2.length > 0) ||
                 (results.ttests_1.length > 0) && (results.ttests_2.length > 0)) {
                 $("#plot_button").attr('disabled', false);
             } else {
