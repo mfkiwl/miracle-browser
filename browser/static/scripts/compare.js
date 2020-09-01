@@ -70,6 +70,8 @@ $(document).ready(function () {
             } else {
                 $("#correlation1 tbody").empty();
                 $("#correlation2 tbody").empty();
+                $("#ttest1 tbody").empty();
+                $("#ttest2 tbody").empty();
                 experiment_list.attr('disabled', true);
                 experiment_list.html('');
                 $("#plot_button").attr('disabled', true);
@@ -79,6 +81,8 @@ $(document).ready(function () {
         function _write_results(results) {
             $("#correlation1 tbody").empty();
             $("#correlation2 tbody").empty();
+            $("#ttest1 tbody").empty();
+            $("#ttest2 tbody").empty();
             results.correlations_1.forEach(element =>
                 $('#correlation1').append(
                     "<tr>" +
