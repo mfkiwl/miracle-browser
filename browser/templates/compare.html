@@ -66,6 +66,10 @@
     <div class="row">
       <div class="col-6">
         <h5>Target 1</h5>
+        <div style="text-align: left; margin-bottom: 0.5em;">
+          <button id="corr1-all" class="selector btn btn-success">All</button>
+          <button id="corr1-none" class="selector btn btn-danger">None</button>
+        </div>
         <table id="correlation1" class="table">
           <thead>
           <tr>
@@ -79,9 +83,15 @@
           {% for correlation in correlations1 %}
             <tr>
               {% if correlation.statisticTraceid | int in c %}
-                <td><input type="checkbox" name="selection" value="{{ correlation.statisticTraceid }}" checked/></td>
+                <td>
+                  <input type="checkbox" name="selection" class="corr1-checkbox"
+                         value="{{ correlation.statisticTraceid }}" checked/>
+                </td>
               {% else %}
-                <td><input type="checkbox" name="selection" value="{{ correlation.statisticTraceid }}"/></td>
+                <td>
+                  <input type="checkbox" name="selection" class="corr1-checkbox"
+                         value="{{ correlation.statisticTraceid }}"/>
+                </td>
               {% endif %}
               <td>{{ correlation.id }}</td>
               <td>{{ correlation.name }}</td>
@@ -94,6 +104,10 @@
 
       <div class="col-6">
         <h5>Target 2</h5>
+        <div style="text-align: left; margin-bottom: 0.5em;">
+          <button id="corr2-all" class="selector btn btn-success">All</button>
+          <button id="corr2-none" class="selector btn btn-danger">None</button>
+        </div>
         <table id="correlation2" class="table">
           <thead>
           <tr>
@@ -107,9 +121,15 @@
           {% for correlation in correlations2 %}
             <tr>
               {% if correlation.statisticTraceid | int in c %}
-                <td><input type="checkbox" name="selection" value="{{ correlation.statisticTraceid }}" checked/></td>
+                <td>
+                  <input type="checkbox" name="selection" class="corr2-checkbox"
+                         value="{{ correlation.statisticTraceid }}" checked/>
+                </td>
               {% else %}
-                <td><input type="checkbox" name="selection" value="{{ correlation.statisticTraceid }}"/></td>
+                <td>
+                  <input type="checkbox" name="selection" class="corr2-checkbox"
+                         value="{{ correlation.statisticTraceid }}"/>
+                </td>
               {% endif %}
               <td>{{ correlation.id }}</td>
               <td>{{ correlation.name }}</td>
@@ -126,6 +146,10 @@
     <div class="row">
       <div class="col-6">
         <h5>Target 1</h5>
+        <div style="text-align: left; margin-bottom: 0.5em;">
+          <button id="ttest1-all" class="selector btn btn-success">All</button>
+          <button id="ttest1-none" class="selector btn btn-danger">None</button>
+        </div>
         <table id="ttest1" class="table">
           <thead>
           <tr>
@@ -138,9 +162,13 @@
           {% for ttest in ttests1 %}
             <tr>
               {% if ttest.ttraceId | int in t %}
-                <td><input type="checkbox" name="selection" value="{{ ttest.ttraceId }}" checked/></td>
+                <td>
+                  <input type="checkbox" name="selection" class="ttest1-checkbox" value="{{ ttest.ttraceId }}" checked/>
+                </td>
               {% else %}
-                <td><input type="checkbox" name="selection" value="{{ ttest.ttraceId }}"/></td>
+                <td>
+                  <input type="checkbox" name="selection" class="ttest1-checkbox" value="{{ ttest.ttraceId }}"/>
+                </td>
               {% endif %}
               <td>{{ ttest.id }}</td>
               <td>{{ ttest.targetFreq }}</td>
@@ -152,6 +180,10 @@
 
       <div class="col-6">
         <h5>Target 2</h5>
+        <div style="text-align: left; margin-bottom: 0.5em;">
+          <button id="ttest2-all" class="selector btn btn-success">All</button>
+          <button id="ttest2-none" class="selector btn btn-danger">None</button>
+        </div>
         <table id="ttest2" class="table">
           <thead>
           <tr>
@@ -164,9 +196,13 @@
           {% for ttest in ttests2 %}
             <tr>
               {% if ttest.ttraceId | int in t %}
-                <td><input type="checkbox" name="selection" value="{{ ttest.ttraceId }}" checked/></td>
+                <td>
+                  <input type="checkbox" name="selection" class="ttest2-checkbox" value="{{ ttest.ttraceId }}" checked/>
+                </td>
               {% else %}
-                <td><input type="checkbox" name="selection" value="{{ ttest.ttraceId }}"/></td>
+                <td>
+                  <input type="checkbox" name="selection" class="ttest2-checkbox" value="{{ ttest.ttraceId }}"/>
+                </td>
               {% endif %}
               <td>{{ ttest.id }}</td>
               <td>{{ ttest.targetFreq }}</td>

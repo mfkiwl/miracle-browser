@@ -12,6 +12,23 @@ $(document).ready(function () {
             update_results(target1, target2, experiment);
         });
 
+        $('.selector').click(function (event) {
+            let table = event.target.id.split('-')[0];
+            let action = {
+                'all' : true,
+                'none' : false
+            }[event.target.id.split('-')[1]];
+            if (table === 'corr1') {
+                $(".corr1-checkbox").attr('checked', action);
+            } else if (table === 'corr2') {
+                $(".corr2-checkbox").attr('checked', action);
+            } else if (table === 'ttest1') {
+                $(".ttest1-checkbox").attr('checked', action);
+            } else if (table === 'ttest2') {
+                $(".ttest2-checkbox").attr('checked', action);
+            }
+        });
+
         $('#plot_button').click(function () {
             $('#shared_div').attr('hidden', true);
             var trace_ids = new Set();
@@ -86,7 +103,7 @@ $(document).ready(function () {
             results.correlations_1.forEach(element =>
                 $('#correlation1').append(
                     "<tr>" +
-                    "<td><input type=\"checkbox\" name=\"selection\" value=\"" + element.statisticTraceid + "\"></td>" +
+                    "<td><input type=\"checkbox\" name=\"selection\" class=\"corr1-checkbox\" value=\"" + element.statisticTraceid + "\"></td>" +
                     "<td>" + element.id + "</td>" +
                     "<td>" + element.name + "</td>" +
                     "<td>" + element.corrType.split(".")[1] + "</td>" +
@@ -96,7 +113,7 @@ $(document).ready(function () {
             results.correlations_2.forEach(element =>
                 $('#correlation2').append(
                     "<tr>" +
-                    "<td><input type=\"checkbox\" name=\"selection\" value=\"" + element.statisticTraceid + "\"></td>" +
+                    "<td><input type=\"checkbox\" name=\"selection\" class=\"corr2-checkbox\" value=\"" + element.statisticTraceid + "\"></td>" +
                     "<td>" + element.id + "</td>" +
                     "<td>" + element.name + "</td>" +
                     "<td>" + element.corrType.split(".")[1] + "</td>" +
@@ -106,7 +123,7 @@ $(document).ready(function () {
             results.ttests_1.forEach(element =>
                 $('#ttest1').append(
                     "<tr>" +
-                    "<td><input type=\"checkbox\" name=\"selection\" value=\"" + element.ttraceId + "\"></td>" +
+                    "<td><input type=\"checkbox\" name=\"selection\" class=\"ttest1-checkbox\" value=\"" + element.ttraceId + "\"></td>" +
                     "<td>" + element.id + "</td>" +
                     "<td>" + element.targetFreq + "</td>" +
                     "</tr>"
@@ -115,7 +132,7 @@ $(document).ready(function () {
             results.ttests_2.forEach(element =>
                 $('#ttest2').append(
                     "<tr>" +
-                    "<td><input type=\"checkbox\" name=\"selection\" value=\"" + element.ttraceId + "\"></td>" +
+                    "<td><input type=\"checkbox\" name=\"selection\" class=\"ttest2-checkbox\" value=\"" + element.ttraceId + "\"></td>" +
                     "<td>" + element.id + "</td>" +
                     "<td>" + element.targetFreq + "</td>" +
                     "</tr>"
