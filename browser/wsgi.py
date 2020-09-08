@@ -70,8 +70,10 @@ def main():
     args    = parser.parse_args()
 
     app     = create_app(args)
-    # serve(app)
-    app.run(debug=True)
+    # Use in production
+    serve(app)
+    # Use for development
+    # app.run(debug=True)
 
 
 if (__name__ == "__main__"):
