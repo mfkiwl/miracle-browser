@@ -93,6 +93,7 @@ $(document).ready(function () {
                 experiment_list.html('');
                 $("#plot_button").attr('disabled', true);
             }
+            $("#spinners-top").attr('hidden', true);
         }
 
         function _write_results(results) {
@@ -144,14 +145,17 @@ $(document).ready(function () {
             } else {
                 $("#plot_button").attr('disabled', true);
             }
+            $("#spinners-top").attr('hidden', true);
         }
 
         function _write_plot(png) {
             $("#plot").attr('src', png);
             $("#plotResultsModal").modal('show');
+            $("#spinners-bottom").attr('hidden', true);
         }
 
         function update_experiments(target1, target2) {
+            $("#spinners-top").attr('hidden', false);
             let json = {
                 "target1": target1,
                 "target2": target2
@@ -170,6 +174,7 @@ $(document).ready(function () {
 
         function update_results(target1, target2, experiment) {
             if (target1 && target2 && experiment) {
+                $("#spinners-top").attr('hidden', false);
                 let json = {
                     "target1": target1,
                     "target2": target2,
@@ -188,6 +193,7 @@ $(document).ready(function () {
         }
 
         function update_plot(trace_ids) {
+            $("#spinners-bottom").attr('hidden', false);
             let json = {
                 "trace_ids": trace_ids
             };
