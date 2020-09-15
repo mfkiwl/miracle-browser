@@ -232,7 +232,8 @@
       <div class="spinner-grow text-dark" role="status"></div>
     </div>
     <div style="text-align: center;">
-      <button id="plot_button" class="btn btn-primary" style="width: 40%;">Plot Selected Results</button>
+      <button id="plot_button" class="btn btn-primary" style="width: 20%;">Plot Selected Results</button>
+      <button id="plot_separate_button" class="btn btn-primary" style="width: 20%;">Plot Selected Results Separately</button>
     </div>
     <!-- Modal Alert for Plots -->
     <div class="modal fade" id="plotResultsModal" tabindex="-1" role="dialog" aria-labelledby="plotResultsModalLabel"
@@ -246,7 +247,8 @@
             </button>
           </div>
           <div class="modal-body" style="text-align: left;">
-            <img id="plot" style="width: 100%; height: auto;">
+            <img id="plot1" style="width: 100%; height: auto;">
+            <img id="plot2" style="width: 100%; height: auto;">
             You can share this plot with others by clicking the share button below!
             <div id="shared_div" hidden>
               <p style="margin-top: 1em; margin-bottom: 0;">Share this unique link to view these results anywhere:</p>

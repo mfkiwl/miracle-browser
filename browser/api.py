@@ -52,24 +52,40 @@ def compare_plots():
     data = request.get_json()
     validation.compare_plots(data)
 
-    traces = []
-    labels = []
-
-    for trace_id in data['trace_ids']:
+    # Plot 1
+    traces, labels = [], []
+    for trace_id in data['plot1']:
         stat_trace = g.db.getStatisticTraceById(trace_id)
         traces.append(stat_trace.getValuesAsNdArray())
         labels.append(stat_trace.name)
-
-    figure = plotting.makePlotFigure(
+    figure1 = plotting.makePlotFigure(
         traces,
         slabels=labels,
         xlabel="Sample"
     )
+    base64_plot1 = plotting.b64_plot_png(figure1)
 
-    base64_png = plotting.b64_plot_png(figure)
+    # Optional Plot 2
+    if data['mode'] == 'multi' and data.get('plot2'):
+        traces, labels = [], []
+        for trace_id in data['plot2']:
+            stat_trace = g.db.getStatisticTraceById(trace_id)
+            traces.append(stat_trace.getValuesAsNdArray())
+            labels.append(stat_trace.name)
+        figure2 = plotting.makePlotFigure(
+            traces,
+            slabels=labels,
+            xlabel="Sample"
+        )
+        base64_plot2 = plotting.b64_plot_png(figure2)
+
+        return jsonify({
+            'plot1': base64_plot1,
+            'plot2': base64_plot2
+        })
 
     return jsonify({
-        'plot': base64_png
+        'plot1': base64_plot1
     })
 
 

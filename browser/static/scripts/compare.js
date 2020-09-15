@@ -15,8 +15,8 @@ $(document).ready(function () {
         $('.selector').click(function (event) {
             let table = event.target.id.split('-')[0];
             let action = {
-                'all' : true,
-                'none' : false
+                'all': true,
+                'none': false
             }[event.target.id.split('-')[1]];
             if (table === 'corr1') {
                 $(".corr1-checkbox").attr('checked', action);
@@ -31,20 +31,39 @@ $(document).ready(function () {
 
         $('#plot_button').click(function () {
             $('#shared_div').attr('hidden', true);
-            var trace_ids = new Set();
+            var plot1 = new Set();
             $("#correlation1 :checked").each(function (_, checkbox) {
-                trace_ids.add(parseInt($(checkbox).val()));
+                plot1.add(parseInt($(checkbox).val()));
             });
             $("#correlation2 :checked").each(function (_, checkbox) {
-                trace_ids.add(parseInt($(checkbox).val()));
+                plot1.add(parseInt($(checkbox).val()));
             });
             $("#ttest1 :checked").each(function (_, checkbox) {
-                trace_ids.add(parseInt($(checkbox).val()));
+                plot1.add(parseInt($(checkbox).val()));
             });
             $("#ttest2 :checked").each(function (_, checkbox) {
-                trace_ids.add(parseInt($(checkbox).val()));
+                plot1.add(parseInt($(checkbox).val()));
             });
-            update_plot(Array.from(trace_ids));
+            update_plot(Array.from(plot1));
+        });
+
+        $('#plot_separate_button').click(function () {
+            $('#shared_div').attr('hidden', true);
+            var plot1 = new Set();
+            var plot2 = new Set();
+            $("#correlation1 :checked").each(function (_, checkbox) {
+                plot1.add(parseInt($(checkbox).val()));
+            });
+            $("#correlation2 :checked").each(function (_, checkbox) {
+                plot2.add(parseInt($(checkbox).val()));
+            });
+            $("#ttest1 :checked").each(function (_, checkbox) {
+                plot1.add(parseInt($(checkbox).val()));
+            });
+            $("#ttest2 :checked").each(function (_, checkbox) {
+                plot2.add(parseInt($(checkbox).val()));
+            });
+            update_plot(Array.from(plot1), Array.from(plot2));
         });
 
         $('#share_button').click(function () {
@@ -148,8 +167,15 @@ $(document).ready(function () {
             $("#spinners-top").attr('hidden', true);
         }
 
-        function _write_plot(png) {
-            $("#plot").attr('src', png);
+        function _write_plot(plot1, plot2) {
+            let img1 = $("#plot1");
+            let img2 = $("#plot2");
+            img1.attr('src', '');
+            img2.attr('src', '');
+            img1.attr('src', plot1);
+            if (plot2) {
+                img2.attr('src', plot2);
+            }
             $("#plotResultsModal").modal('show');
             $("#spinners-bottom").attr('hidden', true);
         }
@@ -192,19 +218,29 @@ $(document).ready(function () {
             }
         }
 
-        function update_plot(trace_ids) {
+        function update_plot(plot1, plot2) {
             $("#spinners-bottom").attr('hidden', false);
             let json = {
-                "trace_ids": trace_ids
+                "mode": "single",
+                "plot1": plot1
             };
+            if (plot2) {
+                json.mode = "multi";
+                json.plot2 = plot2;
+            }
             $.ajax("/api/compare/plot", {
                 type: "POST",
                 data: JSON.stringify(json),
                 contentType: "application/json",
                 dataType: "json",
                 success: function (data) {
-                    let png_src = 'data:image/png;base64,' + data.plot;
-                    _write_plot(png_src);
+                    let plot1 = 'data:image/png;base64,' + data.plot1;
+                    if (json.mode === "multi"){
+                        let plot2 = 'data:image/png;base64,' + data.plot2;
+                        _write_plot(plot1, plot2);
+                    } else {
+                        _write_plot(plot1);
+                    }
                 }
             });
         }

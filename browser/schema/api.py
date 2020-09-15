@@ -39,7 +39,17 @@ def compare_plots(data):
     schema = {
         "type": "object",
         "properties": {
-            "trace_ids": {
+            "mode" : {
+                "type" : "string",
+                "enum" : ["single", "multi"]
+            },
+            "plot1": {
+                "type": "array",
+                "items": {
+                    "type": "number"
+                }
+            },
+            "plot2": {
                 "type": "array",
                 "items": {
                     "type": "number"
@@ -47,7 +57,7 @@ def compare_plots(data):
             }
         },
         "additionalProperties": False,
-        "required": ["trace_ids"]
+        "required": ["mode", "plot1"]
     }
     try:
         validate(data, schema)
