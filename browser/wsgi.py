@@ -15,7 +15,7 @@ def build_arg_parser():
 
     parser.add_argument("db_path",type=str,
         help="path to the database to open")
-    
+
     parser.add_argument("--db-backend",type=str,default="sqlite",
         help="Database backend to use")
 
@@ -55,6 +55,12 @@ def create_app(args):
     import plot
     app.register_blueprint(plot.bp)
 
+    import compare
+    app.register_blueprint(compare.bp)
+
+    import api
+    app.register_blueprint(api.bp)
+
     return app
 
 
@@ -64,7 +70,10 @@ def main():
     args    = parser.parse_args()
 
     app     = create_app(args)
+    # Use in production
     serve(app)
+    # Use for development
+    # app.run(debug=True)
 
 
 if (__name__ == "__main__"):
