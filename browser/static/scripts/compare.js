@@ -89,7 +89,9 @@ $(document).ready(function () {
                 '&e=' + experiment +
                 '&c=' + Array.from(correlations).toString() +
                 '&t=' + Array.from(ttests).toString()
-            $('#shared_link').html(base_url);
+            let shared_link = $('#shared_link');
+            shared_link.attr('href', base_url);
+            shared_link.html(base_url);
             $('#shared_div').attr('hidden', false);
         });
 
