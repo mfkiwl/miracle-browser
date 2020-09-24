@@ -1,5 +1,6 @@
 
 import os
+import subprocess
 import logging as log
 
 class DefaultConfig(object):
@@ -17,3 +18,18 @@ class DefaultConfig(object):
         # Database engine backend.
         self.DB_BACKEND = db_backend
 
+        # Git commit of the current running version.
+        self.GIT_COMMIT = self.__getGitCommit()
+
+
+    def __getGitCommit(self):
+        try:
+            cmd = ["git","rev-parse","HEAD"]
+            out = subprocess.Popen(
+                cmd, stdout = subprocess.PIPE
+            ).communicate()[0]
+            return str(out.strip())[2:-1]
+        except Exception as e:
+            log.warn("Unable to get git commit.")
+            log.warn(str(e))
+            return "Unknown"

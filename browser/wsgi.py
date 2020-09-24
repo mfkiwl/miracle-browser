@@ -35,6 +35,7 @@ def create_app(args):
     log.basicConfig(level=app.config["LOG_LEVEL"])
 
     log.info("Database file: '%s'" % app.config["DB_PATH"])
+    log.info("Browser Git Commit: %s" % app.config["GIT_COMMIT"])
 
     # ensure the instance folder exists
     try:
@@ -78,3 +79,4 @@ def main():
 
 if (__name__ == "__main__"):
     main()
+
