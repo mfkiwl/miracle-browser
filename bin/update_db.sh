@@ -1,9 +1,14 @@
 #!/bin/bash
 
-# Execute this with
-# > ./update_db.sh <key_name> <path_to_local_db> 
-# where <key_name> is the name of the private key in ~/.ssh authorised
-# to access the miracle AWS server and <path_to_local_db> is the database
-# file you have locally that you wish to push to miracle.
+BACKUP_DB=/home/ec2-user/distributed/backup-miracle.sqlite
+LIVE_DB=/home/ec2-user/distributed/miracle.sqlite
+USER=ec2-user
+SERVER=34.245.139.102
+PUBLIC_KEY=$1
+UPLOAD_DB=$2
 
-scp -i ~/.ssh/$1 $2 ec2-user@34.245.139.102:/home/ec2-user/distributed/miracle.sqlite
+#echo "Backing up existing live database to '$BACKUP_DB'"
+#scp -v -i ~/.ssh/$1 $USER@$SERVER:$LIVE_DB $USER@$SERVER:$BACKUP_DB
+
+echo "Uploading new live database to '$LIVE_DB'"
+scp -v -i ~/.ssh/$1 $UPLOAD_DB $USER@$SERVER:$LIVE_DB
