@@ -10,5 +10,6 @@ UPLOAD_DB=$2
 #echo "Backing up existing live database to '$BACKUP_DB'"
 #scp -v -i ~/.ssh/$1 $USER@$SERVER:$LIVE_DB $USER@$SERVER:$BACKUP_DB
 
+echo "Key: ~/.ssh/$1"
 echo "Uploading new live database to '$LIVE_DB'"
-scp -v -i ~/.ssh/$1 $UPLOAD_DB $USER@$SERVER:$LIVE_DB
+scp -i ~/.ssh/$1 $UPLOAD_DB $USER@$SERVER:$LIVE_DB
