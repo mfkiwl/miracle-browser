@@ -1,4 +1,4 @@
-# MIRACLE: MIcRo-ArChitectural Leakage Evaluation
+# [MIRACLE](https://github.com/scarv/miracle): front-end intrastructure
 
 <!--- -------------------------------------------------------------------- --->
 
