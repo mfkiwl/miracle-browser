@@ -70,6 +70,10 @@ def show_results(eid,tid):
         target.id, experiment.id
     ).all()
 
+    blobs      = db.getTraceSetBlobByTargetAndExperiment(
+        target.id, experiment.id, 
+    ).all()
+
     corrs      = db.getCorrolationTraceByTargetAndExperiment (
         target.id, experiment.id
     ).all()
@@ -82,6 +86,7 @@ def show_results(eid,tid):
         "experiments/results.html"  ,
         target     = target         ,
         experiment = experiment     ,
+        blobs      = blobs          ,
         ttests     = ttests         ,
         corrs      = corrs          ,
         pbin       = pbin

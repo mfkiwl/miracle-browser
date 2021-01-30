@@ -61,7 +61,7 @@ def plot_multiple_traces():
     """
     Plots multiple traces over one another.
     """
-    
+
     key = bp.plot_counter + 1
     bp.plot_counter += 1
 
@@ -99,7 +99,7 @@ def plot_multiple_traces():
 def get_requested_plot():
 
     imgid = int(request.args["imgid"])
-    
+
     tr = bp.requested_plots[imgid]
     del bp.requested_plots[imgid]
 
@@ -115,11 +115,11 @@ def compare_trace(catagory,experiment_name, target1, trace_name):
     """
     The page for doing trace comparisons.
     """
-    
+
     experiment_name = catagory+"/"+experiment_name
-    
+
     return render_template(
-        "compare-traces.html",
+        "compare.html",
         experiments     = bp.experiments,
         targets         = bp.targets,
         fix_experiment  = bp.experiments[experiment_name],
@@ -134,7 +134,7 @@ def general_compare_trace():
     """
 
     return render_template(
-        "compare-traces.html",
+        "compare.html",
         experiments     = bp.experiments,
         targets         = bp.targets
     )

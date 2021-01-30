@@ -40,12 +40,14 @@ def makePlotFigure(
         title="",
         xlabel="",
         ylabel="",
-        ylines=[]
+        ylines=[],
+        width_in=10,
+        height_in=6
     ):
     """
     Given a list of satistic traces, create a plot of them.
     """
-    fig = Figure(tight_layout=True, figsize=(10,6))
+    fig = Figure(tight_layout=True, figsize=(width_in,height_in))
 
     ax  = fig.add_subplot(1,1,1)
 
@@ -297,7 +299,9 @@ def render_selection(tids):
     figure  = makePlotFigure(
         traces,
         slabels = labels,
-        xlabel="Sample"
+        xlabel="Sample",
+        width_in = 15,
+        height_in = 8
     )
 
     rsp     = makePlotResponse(figure)

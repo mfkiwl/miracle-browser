@@ -3,7 +3,11 @@
 <head>
 <title>{% block title %}{% endblock %} - UArch Leakage Study</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-{% block css %}{% endblock %}
+{% block css %}
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
+{% endblock %}
 <script type="text/javascript">
 {% block javascript %}{% endblock %}
 </script>
@@ -25,7 +29,7 @@
         <div class="item"><a href="/">About</a></div>
         <div class="item"><a href="{{url_for("targets.list_targets")}}">Targets</a></div>
         <div class="item"><a href="/experiments">Experiments</a></div>
-        <!--<div class="item"><a href="/plot/compare-trace">Compare</a></div>-->
+        <div class="item"><a href="{{ url_for('compare.home') }}">Compare</a></div>
         <!--<div class="item"><a href="/reports">Reports</a></div>-->
     </td>
 </tr>
@@ -40,12 +44,13 @@
 </div>
 <footer>
 <div class="footer">
-    This work has been supported in part by EPSRC via grant 
+    This work has been supported in part by EPSRC via grant
     <a target="_blank" href="https://gow.epsrc.ukri.org/NGBOViewGrant.aspx?GrantRef=EP/R012288/1">EP/R012288/1</a>,
     under the
     <a target="_blank" href="http://www.ukrise.org">RISE</a>
     programme.
-</div
+</div>
 </footer>
+{% block scripts %}{% endblock %}
 </body>
 </html>

@@ -31,6 +31,40 @@
 
 {% endif %}
 
+{% if (blobs | length) > 0 %}
+<h2>Trace Set Blobs</h2>
+<table class="list_table">
+<tr>
+<th>ID</th>
+<th>Num Traces</th>
+<th>Trace Len</th>
+<th>Parameters</th>
+<th>AVG Trace</th>
+<tr>
+{% for b in blobs %}
+<tr>
+<td>{{b.id}}</td>
+<td>{{b.traceCount}}</td>
+<td>{{b.traceLen}}</td>
+<td>
+{% for var in b.variableValues -%}
+{% if var.is_fixed %}
+{{var.varname}} = {{var.getValuesAsNdArray()[0]}},
+{% endif %}
+{%- endfor %}
+</td>
+<td>
+{% for st in b.statisticTraces %}
+{% if st.is_avg_trace %}
+<a href="{{url_for("plot.plot_statistic_trace",eid=b.experimentId, tid=b.targetId, stid=st.id)}}">Plot</a>,
+{% endif  %}
+{% endfor %}
+</td>
+</tr>
+{% endfor %}
+</table>
+{% endif %}
+
 {% if (corrs | length) > 0 %}
 
 <h2>Corrolation Analysis Results</h2>

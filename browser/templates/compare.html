@@ -1,0 +1,277 @@
+{% extends 'master.html' %}
+
+{% block header %}
+  <div style="text-align: center;">
+    <h1>{% block title %}Results Comparison{% endblock %}</h1>
+  </div>
+{% endblock %}
+{% block css %}
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
+{% endblock %}
+
+{% block content %}
+  <div style="text-align: center;">
+    <p style="margin-top: 1.5em;">
+      Please choose two targets and an experiment to plot available results:
+    </p>
+    <div class="row" style="text-align: center;">
+      <div class="col-5 form-group">
+        <label for="target1"><strong>Target 1</strong></label>
+        <select class="form-control target" id="target1">
+          {% for target in targets %}
+            {% if target.id | int == t1 %}
+              <option value="{{ target.id }}" selected>{{ target.name }} - {{ target.description }}</option>
+            {% else %}
+              <option value="{{ target.id }}">{{ target.name }} - {{ target.description }}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-2 my-auto">
+        vs
+      </div>
+      <div class="col-5 form-group">
+        <label for="target2"><strong>Target 2</strong></label>
+        <select class="form-control target" id="target2">
+          {% for target in targets %}
+            {% if target.id | int == t2 %}
+              <option value="{{ target.id }}" selected>{{ target.name }} - {{ target.description }}</option>
+            {% else %}
+              <option value="{{ target.id }}">{{ target.name }} - {{ target.description }}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <div class="row" style="text-align: center;">
+      <div class="col-5 form-group mx-auto">
+        <label for="experiment"><strong>Experiment</strong></label>
+        <select class="form-control" id="experiment">
+          {% for experiment in experiments %}
+            {% if experiment.id | int == e %}
+              <option value="{{ experiment.id }}" selected>{{ experiment.name }} ({{ experiment.catagory }})</option>
+            {% else %}
+              <option value="{{ experiment.id }}">{{ experiment.name }} ({{ experiment.catagory }})</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <div id="spinners-top" hidden>
+      <div class="spinner-grow text-primary" role="status"></div>
+      <div class="spinner-grow text-secondary" role="status"></div>
+      <div class="spinner-grow text-success" role="status"></div>
+      <div class="spinner-grow text-danger" role="status"></div>
+      <div class="spinner-grow text-warning" role="status"></div>
+      <div class="spinner-grow text-info" role="status"></div>
+      <div class="spinner-grow text-dark" role="status"></div>
+    </div>
+
+    <h4 style="margin-top: 1em;">Corrolation Analysis Results</h4>
+
+    <div class="row">
+      <div class="col-6">
+        <h5>Target 1</h5>
+        <div style="text-align: left; margin-bottom: 0.5em;">
+          <button id="corr1-all" class="selector btn btn-success">All</button>
+          <button id="corr1-none" class="selector btn btn-danger">None</button>
+        </div>
+        <table id="correlation1" class="table">
+          <thead>
+          <tr>
+            <th></th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Type</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for correlation in correlations1 %}
+            <tr>
+              {% if correlation.statisticTraceid | int in c %}
+                <td>
+                  <input type="checkbox" name="selection" class="corr1-checkbox"
+                         value="{{ correlation.statisticTraceid }}" checked/>
+                </td>
+              {% else %}
+                <td>
+                  <input type="checkbox" name="selection" class="corr1-checkbox"
+                         value="{{ correlation.statisticTraceid }}"/>
+                </td>
+              {% endif %}
+              <td>{{ correlation.id }}</td>
+              <td>{{ correlation.name }}</td>
+              <td>{{ correlation.corrType.name }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="col-6">
+        <h5>Target 2</h5>
+        <div style="text-align: left; margin-bottom: 0.5em;">
+          <button id="corr2-all" class="selector btn btn-success">All</button>
+          <button id="corr2-none" class="selector btn btn-danger">None</button>
+        </div>
+        <table id="correlation2" class="table">
+          <thead>
+          <tr>
+            <th></th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Type</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for correlation in correlations2 %}
+            <tr>
+              {% if correlation.statisticTraceid | int in c %}
+                <td>
+                  <input type="checkbox" name="selection" class="corr2-checkbox"
+                         value="{{ correlation.statisticTraceid }}" checked/>
+                </td>
+              {% else %}
+                <td>
+                  <input type="checkbox" name="selection" class="corr2-checkbox"
+                         value="{{ correlation.statisticTraceid }}"/>
+                </td>
+              {% endif %}
+              <td>{{ correlation.id }}</td>
+              <td>{{ correlation.name }}</td>
+              <td>{{ correlation.corrType.name }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h4>T-Test Analysis Results</h4>
+
+    <div class="row">
+      <div class="col-6">
+        <h5>Target 1</h5>
+        <div style="text-align: left; margin-bottom: 0.5em;">
+          <button id="ttest1-all" class="selector btn btn-success">All</button>
+          <button id="ttest1-none" class="selector btn btn-danger">None</button>
+        </div>
+        <table id="ttest1" class="table">
+          <thead>
+          <tr>
+            <th></th>
+            <th>ID</th>
+            <th>Target Frequency</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for ttest in ttests1 %}
+            <tr>
+              {% if ttest.ttraceId | int in t %}
+                <td>
+                  <input type="checkbox" name="selection" class="ttest1-checkbox" value="{{ ttest.ttraceId }}" checked/>
+                </td>
+              {% else %}
+                <td>
+                  <input type="checkbox" name="selection" class="ttest1-checkbox" value="{{ ttest.ttraceId }}"/>
+                </td>
+              {% endif %}
+              <td>{{ ttest.id }}</td>
+              <td>{{ ttest.targetFreq }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="col-6">
+        <h5>Target 2</h5>
+        <div style="text-align: left; margin-bottom: 0.5em;">
+          <button id="ttest2-all" class="selector btn btn-success">All</button>
+          <button id="ttest2-none" class="selector btn btn-danger">None</button>
+        </div>
+        <table id="ttest2" class="table">
+          <thead>
+          <tr>
+            <th></th>
+            <th>ID</th>
+            <th>Target Frequency</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for ttest in ttests2 %}
+            <tr>
+              {% if ttest.ttraceId | int in t %}
+                <td>
+                  <input type="checkbox" name="selection" class="ttest2-checkbox" value="{{ ttest.ttraceId }}" checked/>
+                </td>
+              {% else %}
+                <td>
+                  <input type="checkbox" name="selection" class="ttest2-checkbox" value="{{ ttest.ttraceId }}"/>
+                </td>
+              {% endif %}
+              <td>{{ ttest.id }}</td>
+              <td>{{ ttest.targetFreq }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div id="spinners-bottom" style="margin-bottom: 0.75em;" hidden>
+      <div class="spinner-grow text-primary" role="status"></div>
+      <div class="spinner-grow text-secondary" role="status"></div>
+      <div class="spinner-grow text-success" role="status"></div>
+      <div class="spinner-grow text-danger" role="status"></div>
+      <div class="spinner-grow text-warning" role="status"></div>
+      <div class="spinner-grow text-info" role="status"></div>
+      <div class="spinner-grow text-dark" role="status"></div>
+    </div>
+    <div style="text-align: center;">
+      <button id="plot_button" class="btn btn-primary" style="width: 20%;">Plot Selected Results</button>
+      <button id="plot_separate_button" class="btn btn-primary" style="width: 20%;">Plot Selected Results Separately</button>
+    </div>
+    <!-- Modal Alert for Plots -->
+    <div class="modal fade" id="plotResultsModal" tabindex="-1" role="dialog" aria-labelledby="plotResultsModalLabel"
+         aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="plotResultsModalLabel">Plotted Results</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" style="text-align: left;">
+            <img id="plot1" style="width: 100%; height: auto;">
+            <img id="plot2" style="width: 100%; height: auto;">
+            You can share this plot with others by clicking the share button below!
+            <div id="shared_div" hidden>
+              <p style="margin-top: 1em; margin-bottom: 0;">Share this unique link to view these results anywhere:</p>
+              <a id="shared_link" href=""></a>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button id="share_button" type="button" class="btn btn-success">Share</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+          integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+          crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+          integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+          crossorigin="anonymous"></script>
+  <script src="/static/scripts/compare.js"></script>
+{% endblock %}
